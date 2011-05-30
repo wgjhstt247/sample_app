@@ -52,7 +52,7 @@ describe "LayoutLinks" do
 	describe "when signed in" do
 
 		before(:each) do
-			@user = Factory(:user)
+			@user = Factory(:user, :admin => true)
 			integration_sign_in(@user)
 		end
 
@@ -66,6 +66,27 @@ describe "LayoutLinks" do
 			visit root_path
 			response.should have_selector("a", :href => user_url(@user, :protocol => 'http'),
 											   :content => "Profile")
+		end
+
+		describe "as admin" do
+		
+			it "should show the delete links on the Users index" do
+				visit root_path
+				click_link "Users"
+				response.should have_selector("a", :href => user_url(@user, :protocol => 'http'),
+												   :content => "delete")
+			end
+		end
+
+		describe "as non-admin" do
+
+			it "should not show the delete links on the Users index" do
+				@user.toggle!(:admin)
+				visit root_path
+				click_link "Users"
+				response.should_not have_selector("a", :href => user_url(@user, :protocol => 'http'),
+													   :content => "delete")
+			end
 		end
 	end
 end

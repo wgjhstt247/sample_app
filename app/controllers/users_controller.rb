@@ -14,22 +14,30 @@ class UsersController < ApplicationController
   end
 
   def new
-	@user = User.new
-	@title = "Sign up"
+	if current_user.nil?
+		@user = User.new
+		@title = "Sign up"
+	else
+		redirect_to(root_path)
+	end	
   end
 
   def create
-	@user = User.new(params[:user])
-	if @user.save
-	  sign_in @user
-	  # Handle a successful save.
-	  flash[:success] = "Welcome to the Sample App!"
-	  redirect_to @user
+	if current_user.nil?
+		@user = User.new(params[:user])
+		if @user.save
+	  		sign_in @user
+	  		# Handle a successful save.
+	  		flash[:success] = "Welcome to the Sample App!"
+	  		redirect_to @user
+		else
+	  		@title = "Sign up"
+	  		@user.password = ''
+	  		@user.password_confirmation = ''
+	  		render 'new'
+		end
 	else
-	  @title = "Sign up"
-	  @user.password = ''
-	  @user.password_confirmation = ''
-	  render 'new'
+		redirect_to(root_path)
 	end
   end
 
@@ -48,9 +56,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-	User.find(params[:id]).destroy
-	flash[:success] = "User destroyed."
-	redirect_to users_path
+	if current_user.admin? && current_user?(User.find(params[:id]))
+		flash[:error] = "Cannot destroy self."
+		redirect_to users_path	
+	else
+		User.find(params[:id]).destroy
+		flash[:success] = "User destroyed."
+		redirect_to users_path
+	end
   end
 
   private
@@ -65,6 +78,10 @@ class UsersController < ApplicationController
 	end
 
 	def admin_user
-		redirect_to(root_path) unless current_user.admin?
+		if !current_user.nil?
+			redirect_to(root_path) unless current_user.admin?
+		else
+			deny_access
+		end
 	end
 end

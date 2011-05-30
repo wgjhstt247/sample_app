@@ -249,7 +249,7 @@ describe UsersController do
 	end
   end
 
-  describe "authentication of edit/update pages" do
+  describe "authentication of edit/update/new pages" do
 
 		before(:each) do
 			@user = Factory(:user)
@@ -284,6 +284,18 @@ describe UsersController do
 				put :update, :id => @user, :user => {}
 				response.should redirect_to(root_path)
 			end
+
+			it "should deny access to 'new'" do
+				get :new
+				response.should redirect_to(root_path)
+			end
+
+			it "should deny access to 'create'" do
+				@attr = { :name => "New Name", :email => "user@example.org",
+						  :password => "barbaz", :password_confirmation => "barbaz" }
+				post :create, :user => @attr
+				response.should redirect_to(root_path)
+			end
 		end
 	end
 
@@ -311,8 +323,8 @@ describe UsersController do
 		describe "as an admin user" do
 
 			before(:each) do
-				admin = Factory(:user, :email => "admin@example.com", :admin => true)
-				test_sign_in(admin)
+				@admin = Factory(:user, :email => "admin@example.com", :admin => true)
+				test_sign_in(@admin)
 			end
 
 			it "should destroy the user" do
@@ -325,6 +337,12 @@ describe UsersController do
 				delete :destroy, :id => @user
 				response.should redirect_to(users_path)
 			end
+
+			it "should not delete itself" do
+				lambda do
+					delete :destroy, :id => @admin
+				end.should_not change(User, :count)
+			end		
 		end
 	end
 end
