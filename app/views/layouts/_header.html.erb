@@ -4,7 +4,9 @@
     <ul>
       <li><%= link_to "Home", root_url(:protocol => 'http') %></li>
 	  <% if signed_in? %>
+	  <li><%= link_to "Users", users_url(:protocol => 'http') %></li>
 	  <li><%= link_to "Profile", user_url(current_user, :protocol => 'http') %></li>
+	  <li><%= link_to "Settings", edit_user_url(current_user, :protocol => 'http') %></li>
 	  <% end %>
       <li><%= link_to "Help", help_url(:protocol => 'http') %></li>
 	  <% if signed_in? %>

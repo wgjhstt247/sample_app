@@ -76,7 +76,7 @@ RSpec.configure do |config|
   end
 
   def integration_sign_in(user)
-	visit signin_path
+	visit signin_url(:protocol => 'https')
 	fill_in :email,		:with => user.email
 	fill_in :password,	:with => user.password
 	click_button

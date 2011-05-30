@@ -44,7 +44,7 @@ describe "LayoutLinks" do
 	describe "when not signed in" do
 		it "should have a signin link" do
 			visit root_path
-			response.should have_selector("a", :href => signin_path,
+			response.should have_selector("a", :href => signin_url(:protocol => 'https'),
 												:content => "Sign in")
 		end
 	end
@@ -58,13 +58,13 @@ describe "LayoutLinks" do
 
 		it "should have a signout link" do
 			visit root_path
-			response.should have_selector("a", :href => signout_path,
+			response.should have_selector("a", :href => signout_url(:protocol => 'http'),
 												:content => "Sign out")
 		end
 
 		it "should have a profile link" do
 			visit root_path
-			response.should have_selector("a", :href => user_path(@user),
+			response.should have_selector("a", :href => user_url(@user, :protocol => 'http'),
 											   :content => "Profile")
 		end
 	end
