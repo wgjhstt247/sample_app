@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
+#  before_filter :force_http
 end

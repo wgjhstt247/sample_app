@@ -1,15 +1,20 @@
 SampleApp::Application.routes.draw do
 	resources :users
-	resources :sessions, :only => [:new, :create, :destroy]
 
-	match '/signup', :to => 'users#new'
-	match '/signin', :to => 'sessions#new'
-	match '/signout', :to => 'sessions#destroy'
-	match '/contact', :to => 'pages#contact'
-	match '/about', :to => 'pages#about'
-	match '/help', :to => 'pages#help'
+	scope :constraints => { :protocol => 'https' } do
+		resources :sessions, :only => [:new, :create]	
+		match '/signin' => 'sessions#new'
+	end
+
+	resources :sessions, :only => :destroy		
+	
+	match '/signout' => 'sessions#destroy'
+	match '/signup' => 'users#new'
+	match '/contact' => 'pages#contact'
+	match '/about' => 'pages#about'
+	match '/help' => 'pages#help'
     root :to => "pages#home"
-
+	
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

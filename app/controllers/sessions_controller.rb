@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+
   def new
 	@title = "Sign in"
   end
@@ -12,7 +13,7 @@ class SessionsController < ApplicationController
 		render 'new'
 	else
 		sign_in user
-		redirect_to user
+		redirect_to user_url(user, :protocol => 'http')
 	end
   end
 
@@ -20,4 +21,5 @@ class SessionsController < ApplicationController
 	sign_out
 	redirect_to root_path
   end
+
 end
