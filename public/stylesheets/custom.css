@@ -199,29 +199,90 @@ h1.micropost {
     margin-bottom: 0.3em;
 }
 
+ol.microposts {
+    margin-top: 1em;
+}
+
 table.microposts {
     margin-top: 1em;
 }
 
-table.microposts tr {
+ol.microposts div {
+    position:relative;
+    top: -0.7em; 
+    display: block;
+    float: left;
+}
+
+table.microposts td {
     height: 70px;
 }
 
-table.microposts tr td.gravatar {
+ol.microposts li:before {
+    content: counter(item) ". ";
+    counter-increment: item;
+    float:left;
+    position: relative;
+    right: 1em;
+}
+
+ol.microposts li {
+    display: block;
+    height: 70px;
+    clear: left;
+}
+
+ol.microposts li div.gravatar {
     border-top: 1px solid #ccc;
     vertical-align: top;
     width: 50px;
+    padding: 0 5px 0 5px;
+}
+
+ol.microposts li div.gravatar a {
+    position: relative;
+    top: 0.7em;
+}
+
+ol.microposts li div.micropost {
+    border-top: 1px solid #ccc;
+    vertical-align: top;
+    width: 64%;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 table.microposts tr td.micropost {
     border-top: 1px solid #ccc;
     vertical-align: top;
     padding-top: 10px;
+    padding-left: 10px;
+}
+
+ol.microposts li div.delete {
+    position: relative;
+    top: 1em;
+    padding-left: 10px;
+}
+
+ol.microposts li div.micropost span.timestamp {
+    display: block;
+    font-size: 85%;
+    color: #666;
+    margin-bottom: 0.5em;
 }
 
 table.microposts tr td.micropost span.timestamp {
     display: block;
     font-size: 85%;
+    color: #666;
+}
+
+.pagination {
+    clear:left;
+}
+
+.charcount-safe {
     color: #666;
 }
 

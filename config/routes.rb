@@ -1,5 +1,7 @@
 SampleApp::Application.routes.draw do
-	resources :users
+	resources :users do
+	    resources :microposts, :only => :index
+	end
 
 	scope :constraints => { :protocol => 'https' } do
 		resources :sessions, :only => [:new, :create]	
