@@ -1,5 +1,8 @@
 SampleApp::Application.routes.draw do
 	resources :users do
+	    member do
+	        get :following, :followers
+	    end
 	    resources :microposts, :only => :index
 	end
 
@@ -10,6 +13,7 @@ SampleApp::Application.routes.draw do
     
 	resources :sessions, :only => :destroy		
 	resources :microposts, :only => [:create, :destroy]
+	resources :relationships, :only => [:create, :destroy]
 	
 	match '/signout' => 'sessions#destroy'
 	match '/signup' => 'users#new'

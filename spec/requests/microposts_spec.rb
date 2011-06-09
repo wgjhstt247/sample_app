@@ -44,7 +44,7 @@ describe "Microposts" do
         before(:each) do
             @content = "Lorem ipsum dolor sit amet"
             visit root_path
-            fill_in :micropost_content :with => @content
+            fill_in :micropost_content, :with => @content
             click_button
         end
     
@@ -56,10 +56,11 @@ describe "Microposts" do
         
         it "should display the right verbage and count for >1 than one micropost" do
             visit root_path
-            fill_in :micropost_content :with => @content 
+            fill_in :micropost_content, :with => @content 
             click_button
             visit root_path
             response.should have_selector("span.microposts", :content => 
                                                                  "2 microposts") 
-         end    
+         end
+    end   
 end
